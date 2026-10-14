@@ -201,12 +201,8 @@
                 <div class="text-center">
                     <div class="glass" style="padding:26px;display:inline-block">
                         <div class="qr-link" id="homeQr" style="display:block;background:#fff;padding:14px;border-radius:14px;cursor:pointer"></div>
-                        <p class="xs mute mt-3 mb-1">Scan to pay instantly</p>
-                        <p class="mono bold neon-text">UPI: <span id="homeUpi"></span></p>
                     </div>
-                    <span class="btn btn-ghost btn-sm mt-4 secret-contact" data-reveal="whatsapp" role="button">
-                        📲 <span data-masked>Open WhatsApp chat</span>
-                    </span>
+                    <span class="btn btn-ghost btn-sm mt-4">✉️ <span class="site-email">Gmail</span></span>
                 </div>
             </div>
         </div>
@@ -268,16 +264,15 @@
                     <li><a href="#">Help Center</a></li>
                     <li><a href="#">Rules & Fair Play</a></li>
                     <li><a href="#">Contact</a></li>
-                    <li><span class="secret-contact" data-reveal="phone"><span data-masked>Click to reveal</span></span></li>
-                    <li><span class="secret-contact" data-reveal="email"><span data-masked>Click to reveal</span></span></li>
+                    <li></li>
+                    <li><span class="site-email" data-site="email">Gmail</span></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
             <span>© 2026 GameVault by Abhijeet. Built for the mobile gaming community.</span>
             <div class="flex gap-3 wrap">
-                <span class="secret-contact" style="color:var(--neon)">📞 <span data-masked>Click to reveal phone</span></span>
-                <span class="secret-contact" style="color:var(--neon)">✉️ <span data-masked>Click to reveal email</span></span>
+                <span class="site-email" style="color:var(--neon)">✉️ Gmail</span>
             </div>
         </div>
     </div>
@@ -305,7 +300,7 @@
                 <input class="input" type="password" id="loginPass" placeholder="••••••••" required>
             </div>
             <button class="btn btn-primary btn-block btn-lg" type="submit">Sign In</button>
-            <p class="xs mute text-center mt-4">Owner: <span class="secret-contact" data-reveal="email"><span data-masked>click to reveal</span></span></p>
+            <p class="xs mute text-center mt-4">Owner: <span class="site-email" data-site="email">Gmail</span></p>
         </form>
 
         <form id="registerFormAuth" class="hidden">
@@ -395,7 +390,6 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#contactCards').innerHTML = `
         <a href="tel:${esc(SITE.phoneIntl)}" class="glass" style="padding:16px;border-radius:12px;transition:all .2s">
             <div class="xs mute mb-1">Phone / WhatsApp</div>
-            <div class="bold sm">${esc(SITE.phoneDisplay)}</div>
         </a>
         <a href="mailto:${esc(SITE.email)}" class="glass" style="padding:16px;border-radius:12px;transition:all .2s">
             <div class="xs mute mb-1">Email</div>

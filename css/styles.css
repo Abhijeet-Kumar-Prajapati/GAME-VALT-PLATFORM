@@ -501,15 +501,3 @@ tbody tr:hover { background: rgba(124, 77, 255, 0.07); }
 
 /* ---------- Print ---------- */
 @media print { .nav, .footer, .toast-wrap { display: none; } }
-
-/* ---------- Contact reveal (phone / email / UPI) ----------
-   Ye values config.local.js se aati hain, jo repo me nahi hai.
-   Tab tak sirf "Click to reveal" dikhta hai; click karne par
-   value aa jaati hai aur clickable link ban jaata hai. */
-.secret-contact{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
-.secret-contact [data-masked]{font-style:italic;opacity:.62}
-.secret-contact:hover [data-masked],
-.secret-contact:focus-visible [data-masked]{font-style:normal;opacity:1}
-.secret-contact::after{content:" 🔒";font-size:.72em;opacity:.5;margin-left:3px}
-.secret-contact.is-revealed::after{content:" 🔓";opacity:.28}
-.secret-contact:focus-visible{outline:2px solid var(--neon);outline-offset:3px;border-radius:4px}

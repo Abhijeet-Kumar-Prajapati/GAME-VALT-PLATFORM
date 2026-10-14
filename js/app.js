@@ -6,88 +6,7 @@
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-/* ============================================================
-   CONTACT REVEAL
-   ------------------------------------------------------------
-   Phone / email / UPI ID repo me nahi hain. Ye unhe sirf tab
-   dikhate hain jab user CLICK karta hai - tab tak sirf
-   "Click to reveal" likha hota hai.
 
-   Isse kya hota hai:
-     - GitHub repo me phone/email/UPI kabhi nahi dikhega
-     - Page ka source code me bhi plain-text value nahi hogi
-     - Config nahi mila to "Not configured" dikhega
-
-   Dhyan rakho: browser me value aate hi wo technically
-   DevTools me dikh sakti hai - static website me isse
-   zyada chhupana possible nahi. Ye repo leak rokta hai.
-   ============================================================ */
-const SecretContact = (() => {
-
-    // kis field ke liye link banana hai
-    const LINK = {
-        phone: () => (SITE.phoneIntl ? 'tel:' + SITE.phoneIntl : ''),
-        email: () => (SITE.email ? 'mailto:' + SITE.email : ''),
-        upi: () => {
-            if (!SITE.upiId) return '';
-            return 'upi://pay?pa=' + encodeURIComponent(SITE.upiId)
-                 + '&pn=' + encodeURIComponent(SITE.upiName || '')
-                 + '&cu=INR';
-        }
-    };
-
-    function show(btn) {
-        const key = btn.dataset.reveal;
-        const slot = btn.querySelector('[data-masked]');
-        if (!slot) return;
-
-        const value = SITE[key === 'upi' ? 'upiId' : key] || SITE.phoneDisplay;
-        if (!value) {
-            slot.textContent = 'Not configured';
-            slot.classList.add('mute');
-            return;
-        }
-
-        const href = LINK[key] ? LINK[key]() : '';
-        if (href) {
-            const a = document.createElement('a');
-            a.href = href;
-            a.textContent = value;
-            a.className = 'neon-text';
-            a.setAttribute('data-revealed-link', '1');
-            if (key === 'upi') { a.style.cursor = 'pointer'; a.title = 'Open UPI app'; }
-            slot.replaceWith(a);
-        } else {
-            slot.textContent = value;
-        }
-
-        btn.classList.add('is-revealed');
-    }
-
-    function init() {
-        $$('.secret-contact').forEach(btn => {
-            if (btn.dataset.revealReady) return;
-            btn.dataset.revealReady = '1';
-            if (!btn.hasAttribute('tabindex')) btn.setAttribute('tabindex', '0');
-            if (!btn.hasAttribute('role')) btn.setAttribute('role', 'button');
-
-            btn.addEventListener('click', e => {
-                // pehli click par value, dusri par link kaam kare
-                if (btn.classList.contains('is-revealed')) return;
-                e.preventDefault();
-                show(btn);
-            });
-            btn.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    btn.click();
-                }
-            });
-        });
-    }
-
-    return { init };
-})();
 
 const uid = (prefix = 'id') => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 
@@ -436,7 +355,13 @@ const Payment = {
         }
     },
 
-    /* Full payment panel used in the registration modal and contact page */
+    /* Full payment panel used in the registration modal and contact page.
+       ------------------------------------------------------------
+       PRIVACY: yahan koi number, UPI ID ya QR nahi dikhaya jaata.
+       Sirf price aur ek "Pay" button. UPI deep link ke andar UPI ID
+       jaata hai (ye UPI protocol ka hissa hai - bina iske payment hi
+       nahi ho sakti) lekin wo screen par kabhi print nahi hota.
+    */
     panel(entry) {
         const amt = this.amount(entry);
         const link = this.link(entry);
@@ -444,80 +369,22 @@ const Payment = {
             <div class="divider" style="margin:16px 0"></div>
             <h4 class="bold mb-3" style="font-size:.95rem">💳 Payment</h4>
 
-            <div class="grid" style="grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-bottom:14px">
-                <a href="${link}" class="qr-link" title="Tap to pay" aria-label="UPI QR code">
-                    ${Payment.qr(link, 132)}
-                </a>
-                <div>
-                    <div class="xs mute mb-1">UPI ID</div>
-                    <button class="mono bold" style="font-size:1rem;color:var(--neon);text-align:left;word-break:break-all"
-                            onclick="Payment.copy('${esc(SITE.upiId)}', 'UPI ID copied')">
-                        ${esc(SITE.upiId)}
-                    </button>
-
-                    <div class="xs mute mb-1 mt-3">Pay to</div>
-                    <div class="sm bold">${esc(SITE.upiName)}</div>
-
-                    <div class="xs mute mb-1 mt-3">Amount</div>
-                    <div class="bold neon-text" style="font-size:1.2rem">${esc(entry)}</div>
-                </div>
+            <div style="text-align:center;padding:20px 0 16px">
+                <div class="xs mute mb-2">Entry fee</div>
+                <div class="bold neon-text" style="font-size:2rem;line-height:1.2">${esc(entry)}</div>
             </div>
 
-            <a href="${link}" class="btn btn-hot btn-block mb-3">
-                📱 Pay ${amt ? SITE.currency + amt : 'Now'} with UPI App
+            <a href="${link}" class="btn btn-hot btn-block btn-lg mb-4">
+                📱 Pay with UPI App
             </a>
 
-            <button class="btn btn-ghost btn-block btn-sm mb-4" onclick="Payment.copy('${esc(link)}', 'Payment link copied')">
-                📋 Copy Payment Link
-            </button>
-
-            <ol class="xs mute" style="line-height:1.9">
-                <li>1. Tap <b>Pay with UPI App</b> above (or scan the QR)</li>
-                <li>2. Pay ${amt ? SITE.currency + amt : 'the entry fee'} to UPI ID <span class="mono">${esc(SITE.upiId)}</span></li>
-                <li>3. Send the payment screenshot on WhatsApp to
-                    <a href="https://wa.me/${esc(SITE.whatsapp)}" target="_blank" rel="noopener" class="neon-text">${esc(SITE.phoneDisplay)}</a>
-                </li>
-                <li>4. Your slot is confirmed once payment is verified</li>
+            <ol class="xs mute" style="line-height:2">
+                <li>Upar wala button dabao - teri UPI app khul jayegi</li>
+                <li>Amount pehle se set hoga, bas confirm kar do</li>
+                <li>Payment hote hi tera slot confirm ho jayega</li>
+                ${SITE.email ? `<li>Payment screenshot bhejni ho to email karo:
+                    <a href="mailto:${esc(SITE.email)}" class="neon-text">${esc(SITE.email)}</a></li>` : ''}
             </ol>`;
-    },
-
-    /* UPI QR code
-   ------------------------------------------------------------
-   QR generate karne ke liye koi third-party library nahi hai
-   (repo me koi vendored code nahi). Isliye QR nahi dikhta -
-   payment "Pay with UPI App" button se hoti hai jo upi:// deep
-   link kholta hai. UPI ID copy karke bhi pay kar sakte ho. */
-    qr(text, size = 140) {
-        try {
-            const qr = qrcode(0, 'M'); // typeNumber 0 = auto-select smallest version
-            qr.addData(String(text));
-            qr.make();
-
-            const count = qr.getModuleCount();
-            const cell = 4;
-            const quiet = 4; // quiet zone in modules (required by the QR spec)
-            const dim = (count + quiet * 2) * cell;
-            const parts = [];
-
-            for (let r = 0; r < count; r++) {
-                for (let c = 0; c < count; c++) {
-                    if (qr.isDark(r, c)) {
-                        parts.push(`M${(c + quiet) * cell} ${(r + quiet) * cell}h${cell}v${cell}h-${cell}z`);
-                    }
-                }
-            }
-
-            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${dim} ${dim}" width="${size}" height="${size}" shape-rendering="crispEdges" role="img" aria-label="UPI payment QR code">
-                <rect width="${dim}" height="${dim}" fill="#ffffff"/>
-                <path d="${parts.join('')}" fill="#000000"/>
-            </svg>`;
-        } catch (err) {
-            console.error('QR generation failed:', err);
-            // Fallback: show the UPI link as text so payment is still possible
-            return `<div style="padding:20px;text-align:center;color:#9aa3cc;font-size:.8rem">
-                QR unavailable<br><span class="mono" style="color:#00e5ff">${esc(SITE.upiId)}</span>
-            </div>`;
-        }
     }
 };
 
@@ -631,8 +498,34 @@ function initApp() {
             }
         });
     }, { threshold: 0.12 });
-    SecretContact.init();
+    fillPublicContact();
     $$('.reveal').forEach(el => observer.observe(el));
+}
+
+/* ============================================================
+   PUBLIC CONTACT
+   ------------------------------------------------------------
+   Site par sirf DO cheezein dikhti hain: naam aur Gmail.
+   Mobile number kabhi screen par nahi aata - na footer me,
+   na payment me, na kahin aur.
+
+   Ye function har <span class="site-email"> ko Gmail se bhar
+   deta hai. Agar config.local.js nahi hai to "Not configured"
+   dikhega (lekin koi number leak nahi hoga).
+   ============================================================ */
+function fillPublicContact() {
+    const email = SITE.email || '';
+    const name = SITE.ownerFullName || SITE.ownerName || '';
+
+    $$('.site-email').forEach(el => {
+        if (!email) { el.textContent = 'Not configured'; return; }
+        // Gmail hamesha visible rahega (user ne yahi allow kiya hai)
+        el.innerHTML = `<a href="mailto:${esc(email)}" class="neon-text">${esc(email)}</a>`;
+    });
+
+    $$('.site-owner').forEach(el => {
+        el.textContent = name || 'Not configured';
+    });
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
