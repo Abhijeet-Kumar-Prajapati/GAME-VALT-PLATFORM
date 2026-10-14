@@ -397,9 +397,13 @@ const Payment = {
             <div class="divider" style="margin:16px 0"></div>
             <h4 class="bold mb-3" style="font-size:.95rem">💳 Payment</h4>
 
-            <div style="text-align:center;padding:20px 0 16px">
+            <div style="text-align:center;margin-bottom:16px">
                 <div class="xs mute mb-2">Entry fee</div>
                 <div class="bold neon-text" style="font-size:2rem;line-height:1.2">${esc(entry)}</div>
+            </div>
+
+            <div style="text-align:center;margin-bottom:16px">
+                <div id="panelQr" style="display:inline-block;background:#fff;padding:12px;border-radius:12px"></div>
             </div>
 
             <a href="${esc(link)}" target="_blank" rel="noopener" class="btn btn-hot btn-block btn-lg mb-4">
@@ -533,6 +537,26 @@ function initApp() {
     }, { threshold: 0.12 });
     fillPublicContact();
     $$('.reveal').forEach(el => observer.observe(el));
+}
+
+/* ============================================================
+   UPI QR RENDER
+   ------------------------------------------------------------
+   js/qr.js apna QR generator hai (zero dependency). Ye UPI link
+   ka QR banata hai. Number text me kabhi nahi likha jata.
+   ============================================================ */
+function renderUpiQR(selector) {
+    const el = $(selector);
+    if (!el || typeof QR === 'undefined') return;
+    const link = paymentLink(0);
+    if (!link) { el.style.display = 'none'; return; }
+    const svg = QR.toSVG(link, 168);
+    el.innerHTML = svg || '';
+    if (svg) {
+        el.style.cursor = 'pointer';
+        el.title = 'Scan to pay';
+        el.onclick = () => { window.location.href = paymentLink(0); };
+    }
 }
 
 /* ============================================================

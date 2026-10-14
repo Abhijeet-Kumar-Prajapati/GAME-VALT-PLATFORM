@@ -348,6 +348,7 @@
         <div class="grid" style="gap:10px" id="notifList"></div>
     </div>
 </div>
+<script src="js/qr.js"></script>
 <script src="js/config.local.js"></script>
 <script src="js/config.js"></script>
 <script src="js/data.js"></script>
@@ -382,6 +383,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     animateCounters();
+
+    /* UPI QR - apna QR generator (js/qr.js), koi library nhi
+       Number kabhi screen par nahi dikhta, sirf QR image. */
+    renderUpiQR('#homeQr');
+    /* jab tournament modal khule to uska QR bhi bhar do */
+    const _mo=new MutationObserver(()=>{const e=document.getElementById('panelQr'); if(e&&e.isConnected&&!e.dataset.done){e.dataset.done='1';renderUpiQR('#panelQr');}});
+    _mo.observe(document.body,{childList:true,subtree:true});
     /* Contact section - sirf naam aur email */
     $('#contactCards').innerHTML = `
         <a href="mailto:${esc(SITE.email)}" class="glass" style="padding:16px;border-radius:12px;transition:all .2s">
