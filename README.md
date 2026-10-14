@@ -27,7 +27,7 @@ Open **http://localhost:8080**
 |---|---|
 | `index.html` | Landing page — hero, trending games, live tournaments, payment, community buzz |
 | `games.html` | Game library — search, genre filters, sorting, favourites, detail modal |
-| `tournaments.html` | Tournament hub — filters, squad registration, **UPI payment**, fair-play policy |
+| `tournaments.html` | Tournament hub — filters, squad registration, secure payment, fair-play policy |
 | `leaderboard.html` | All-time + monthly leaderboards, podium, rank system |
 | `community.html` | Social feed — post, like, comment, filter, search |
 | `news.html` | Gaming news feed |
@@ -65,21 +65,15 @@ mobile-gaming-platform/
 Everything personal lives in **`js/config.js`**:
 
 ```js
-const SITE = {
-    ownerName: 'Abhijeet',
-    ownerFullName: 'Abhijeet',
+// js/config.local.js  (gitignored — is file ko kabhi commit mat karna)
+window.SITE_LOCAL = {
+    ownerName: '...' ,
+    ownerFullName: '...' ,
+    email: '...' ,
 
-    phone: '<your-number>',
-    phoneIntl: '<your-phone>',
-    phoneDisplay: '<your-phone>',
-    whatsapp: '<your-number>',
-
-    email: '<your-email>',
-
-    upiId: '<your-upi-id>',
-    upiName: 'Abhijeet',
-
-    supportHours: '10 AM – 10 PM IST'
+    // Payment gateway ka link (Razorpay / PayU / Cashfree)
+    paymentLink: 'https://rzp.io/l/xxxxxxxx',
+    paymentLabel: 'Pay securely'
 };
 ```
 
@@ -88,36 +82,26 @@ sections, payment panels and the owner account.
 
 ---
 
-## 💳 Payment system (UPI)
+## 💳 Payment system
 
-Built around your mobile number. **No gateway, no backend, no monthly fee.**
+Payments **Razorpay / PayU / Cashfree** jaise payment gateway ke through hote hain.
 
-| | |
-|---|---|
-| UPI ID | `<your-upi-id>` |
-| Payee name | Abhijeet |
-| Phone / WhatsApp | <your-phone> |
-| Email | <your-email> |
+Gateway ka payment link `js/config.local.js` me daalo. Amount link me pehle se
+set hota hai, isliye customer ko sirf "Pay" dabana hai.
 
-**How it works:**
-1. Player registers a squad and picks a tournament
-2. The registration modal shows a **"Pay with UPI App"** button
-3. Tapping the button opens Google Pay / PhonePe / Paytm / any bank app with the **amount already filled in**
-4. Player sends the payment screenshot on WhatsApp
-5. You verify and confirm the slot
+### Privacy
 
-**Also included:**
-- One-tap copy of the UPI ID
-- One-tap copy of the full payment link
-- One-tap payment that opens the UPI app directly (no third-party QR library)
-- Automatic amount detection from the tournament entry fee
+Is project me **koi personal detail repo me nahi hoti**:
 
-> Most Indian banks let you use `UPI ID = 10-digit mobile number + @bankhandle`.
-> If your UPI ID is different, just change `SITE.upiId` in `js/config.js`.
->
-> ⚠️ Always test with a small amount first to confirm your UPI ID resolves correctly.
+- Mobile number aur UPI ID **kabhi bhi code me nahi** — wo gateway ke paas rehta hai
+- UPI deep link (`upi://pay?pa=...`) bilkul use nahi hota
+- Website par sirf **naam** aur **Gmail ID** dikhti hai
+- Payment ke liye koi QR code nahi chahiye
 
----
+```bash
+node server.js     # http://localhost:8080
+```
+
 
 ## 🎮 Features
 

@@ -101,7 +101,7 @@
             <div class="card reveal"><div class="card-body">
                 <div class="brand-mark mb-4" style="width:40px;height:40px">3</div>
                 <h3 style="font-size:1rem" class="mb-2">Pay entry</h3>
-                <p class="sm dim">UPI payment, screenshot on WhatsApp, slot confirmed.</p>
+                <p class="sm dim">Secure online payment, slot confirmed instantly.</p>
             </div></div>
             <div class="card reveal"><div class="card-body">
                 <div class="brand-mark mb-4" style="width:40px;height:40px">4</div>
@@ -210,8 +210,6 @@
             </div>
             <div class="grid g-2" style="gap:14px">
                 <div class="field">
-                    <label class="label" for="regContact">WhatsApp / Phone</label>
-                    <input class="input" type="tel" id="regContact" placeholder="10-digit number" required>
                 </div>
                 <div class="field">
                     <label class="label" for="regEmail">Email</label>
@@ -241,7 +239,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     TournamentsPage.init();
     const qr = document.querySelector('#supportQr');
-    if (qr) qr.innerHTML = Payment.qr(upiLink(0), 160);
 });
 </script>
 </body>

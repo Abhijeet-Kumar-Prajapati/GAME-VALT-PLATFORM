@@ -382,15 +382,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     animateCounters();
-
-    /* Payment + contact section */
-    $('#homeQr').innerHTML = Payment.qr(upiLink(0), 190);
-    $('#homeUpi').textContent = SITE.upiId;
-
+    /* Contact section - sirf naam aur email */
     $('#contactCards').innerHTML = `
-        <a href="tel:${esc(SITE.phoneIntl)}" class="glass" style="padding:16px;border-radius:12px;transition:all .2s">
-            <div class="xs mute mb-1">Phone / WhatsApp</div>
-        </a>
         <a href="mailto:${esc(SITE.email)}" class="glass" style="padding:16px;border-radius:12px;transition:all .2s">
             <div class="xs mute mb-1">Email</div>
             <div class="bold sm truncate" style="font-size:.78rem">${esc(SITE.email)}</div>

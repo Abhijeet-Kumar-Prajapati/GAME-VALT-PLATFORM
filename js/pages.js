@@ -318,7 +318,7 @@ const TournamentsPage = {
             <h4 class="bold mb-2" style="font-size:.9rem">Squad Size</h4>
             <p class="sm dim mb-6">${t.perTeam} player${t.perTeam > 1 ? 's' : ''} per squad · ${t.slots} total slots</p>
             <h4 class="bold mb-2" style="font-size:.9rem">Room Details</h4>
-            <p class="sm dim mb-6">Room ID and password are sent on WhatsApp 30 minutes before match start. Contact: <span class="mono neon-text">${esc(t.contact)}</span></p>
+            <p class="sm dim mb-6">Room ID and password are emailed to you 30 minutes before match start. Contact: <span class="mono neon-text">${esc(t.contact)}</span></p>
             ${t.status !== 'done' && t.filled < t.slots
                 ? `<button class="btn btn-primary btn-block" onclick="closeModal('tournamentModal');TournamentsPage.openRegister('${t.id}')">Register Now</button>`
                 : ''}`;
@@ -333,7 +333,6 @@ const TournamentsPage = {
 
         $('#registerModalTitle').textContent = `Register — ${t.title}`;
         $('#regTeamName').value = '';
-        $('#regContact').value = '';
         $('#regEmail').value = Auth.current().email;
         $('#regTournamentId').value = t.id;
         $('#regTeamName').placeholder = `Your squad name`;
@@ -378,8 +377,7 @@ const TournamentsPage = {
                 const result = Teams.register({
                     tournamentId: $('#regTournamentId').value,
                     name: $('#regTeamName').value.trim(),
-                    contact: $('#regContact').value.trim(),
-                    email: $('#regEmail').value.trim(),
+                    email: (SITE.email || $('#regEmail').value.trim()),
                     members,
                     ids
                 });

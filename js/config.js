@@ -1,33 +1,38 @@
 /* ============================================================
    GAMEVAULT — Site Configuration (PUBLIC — koi personal detail nahi)
    ------------------------------------------------------------
-   Phone, email aur UPI ID jaan-boojhkar YAHAAN nahi rakhe gaye,
-   taaki ye public repo me kabhi leak na hon.
+   Is file me KABHI bhi personal detail ya UPI ID mat likho.
+   Ye file public repo me jati hai.
 
-   Asli details 'config.local.js' me daalo — wo file .gitignore
-   me hai aur GitHub par push nahi hoti.
+   Site par sirf 2 cheezein dikhti hain:
+     1. Naam
+     2. Gmail ID
 
-   Template dekho: js/config.example.js
+   Mobile number, UPI ID, WhatsApp — kuch bhi yahan nahi.
+
+   Asli details 'config.local.js' me daalo (wo .gitignore me hai).
+   Template: js/config.example.js
+
+   PAYMENT ke liye payment gateway use karo (Razorpay / PayU /
+   Cashfree). Unka payment link config.local.js me daalo — wo
+   link me aapka UPI ID already hota hai, isliye aapka number
+   kabhi aapki website par nahi aata.
    ============================================================ */
 
 const SITE = {
-    /* ---- Your details ----
-       Ye sab config.local.js se aate hain. Tab tak khali rahenge. */
+    /* ---- Your details (config.local.js se aate hain) ---- */
     ownerName: '',
     ownerFullName: '',
-
-    /* Indian mobile number (10 digits, no +91) */
-    phone: '',
-    phoneIntl: '',
-    phoneDisplay: '',
-    whatsapp: '',
-
-    /* Email */
     email: '',
 
-    /* ---- Payment / UPI ---- */
-    upiId: '',
-    upiName: '',
+    /* ---- Payment ----
+       Payment gateway ka link. Example (Razorpay):
+           https://rzp.io/l/xxxxxxxx
+       Ya PayU:  https://u.paysqr.link/xxxxx
+       Isme amount pehle se set hota hai, isliye har tournament
+       ke liye alag link bana sakte ho. */
+    paymentLink: '',
+    paymentLabel: 'Pay securely',
 
     /* ---- Branding ---- */
     siteName: 'GameVault',
@@ -50,24 +55,14 @@ const SITE = {
 
 /* config.local.js (gitignored) se asli details merge karo.
    Wo file nahi hui to site khud kaam karega, bas contact
-   section 'Not configured' dikhayega. */
+   section 'Not configured' dikhayega aur payment button chhupa
+   rahega. */
 if (typeof window !== 'undefined' && window.SITE_LOCAL && typeof window.SITE_LOCAL === 'object') {
     Object.assign(SITE, window.SITE_LOCAL);
 }
 
-/* UPI deep-link — opens any UPI app with the amount pre-filled */
-function upiLink(amount) {
-    const params = new URLSearchParams({
-        pa: SITE.upiId,
-        pn: SITE.upiName,
-        cu: 'INR',
-        tn: `${SITE.siteName} Tournament Entry`
-    });
-    if (amount) params.set('am', String(amount));
-    return `upi://pay?${params.toString()}`;
-}
-
-/* Pretty-print a phone number for display */
-function phonePretty() {
-    return SITE.phoneDisplay;
+/* Payment gateway ka link. Koi UPI deep-link nahi — isse number
+   kabhi browser tak nahi jaata. */
+function paymentLink() {
+    return SITE.paymentLink || '';
 }

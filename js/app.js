@@ -319,7 +319,16 @@ const Community = {
 };
 
 /* ============================================================
-   PAYMENT (UPI — mobile number based)
+   PAYMENT (via payment gateway — Razorpay / PayU / Cashfree)
+   ------------------------------------------------------------
+   Aapka UPI ID / mobile number KABHI is site par nahi jaata.
+   Gateway ka payment link config.local.js me hota hai, aur us
+   link ke through payment seedha aapke account me aata hai.
+
+   Isliye koi bhi visitor:
+     - page source dekhe      -> number nahi milega
+     - DevTools khole         -> number nahi milega
+     - "Pay" button click kare -> gateway ka checkout khulega
    ============================================================ */
 const Payment = {
     /* Extract the numeric amount from an entry string like "₹100 / squad" */
@@ -328,12 +337,17 @@ const Payment = {
         return m ? parseFloat(m[1]) : 0;
     },
 
-    /* UPI deep link — opens GPay/PhonePe/Paytm with amount pre-filled */
-    link(entry) {
-        return upiLink(this.amount(entry));
+    /* Gateway ka payment link (config.local.js se) */
+    link() {
+        return paymentLink();
     },
 
-    /* Copy UPI ID / link to clipboard */
+    /* Kya payment configure hai? */
+    isReady() {
+        return !!paymentLink();
+    },
+
+    /* Copy helper (generic, koi UPI ID nahi) */
     async copy(text, label = 'Copied to clipboard') {
         const value = String(text);
         try {
@@ -363,8 +377,22 @@ const Payment = {
        nahi ho sakti) lekin wo screen par kabhi print nahi hota.
     */
     panel(entry) {
-        const amt = this.amount(entry);
-        const link = this.link(entry);
+        const link = this.link();
+        const label = SITE.paymentLabel || 'Pay securely';
+
+        // Payment link nahi hai (config.local.js set nahi) — button mat dikhao
+        if (!link) {
+            return `
+                <div class="divider" style="margin:16px 0"></div>
+                <h4 class="bold mb-3" style="font-size:.95rem">💳 Payment</h4>
+                <div style="text-align:center;padding:20px 0">
+                    <div class="xs mute mb-2">Entry fee</div>
+                    <div class="bold neon-text" style="font-size:2rem;line-height:1.2">${esc(entry)}</div>
+                    <div class="xs mute mt-3">Online payment abhi available nahi hai.<br>Registration ke liye email karo.</div>
+                </div>
+                ${SITE.email ? `<a href="mailto:${esc(SITE.email)}?subject=${encodeURIComponent('Tournament registration - ' + entry)}" class="btn btn-ghost btn-block">✉️ Email se contact karo</a>` : ''}`;
+        }
+
         return `
             <div class="divider" style="margin:16px 0"></div>
             <h4 class="bold mb-3" style="font-size:.95rem">💳 Payment</h4>
@@ -374,17 +402,21 @@ const Payment = {
                 <div class="bold neon-text" style="font-size:2rem;line-height:1.2">${esc(entry)}</div>
             </div>
 
-            <a href="${link}" class="btn btn-hot btn-block btn-lg mb-4">
-                📱 Pay with UPI App
+            <a href="${esc(link)}" target="_blank" rel="noopener" class="btn btn-hot btn-block btn-lg mb-4">
+                🔒 ${esc(label)}
             </a>
 
             <ol class="xs mute" style="line-height:2">
-                <li>Upar wala button dabao - teri UPI app khul jayegi</li>
+                <li>Upar wala button dabao - secure checkout khulega</li>
+                <li>UPI / card / netbanking - jo chaho usse pay kar do</li>
                 <li>Amount pehle se set hoga, bas confirm kar do</li>
                 <li>Payment hote hi tera slot confirm ho jayega</li>
                 ${SITE.email ? `<li>Payment screenshot bhejni ho to email karo:
                     <a href="mailto:${esc(SITE.email)}" class="neon-text">${esc(SITE.email)}</a></li>` : ''}
-            </ol>`;
+            </ol>
+            <p class="xs mute" style="text-align:center;margin-top:10px;opacity:.7">
+                Payments processed securely by our payment provider
+            </p>`;
     }
 };
 
