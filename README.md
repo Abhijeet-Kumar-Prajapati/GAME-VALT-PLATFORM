@@ -49,13 +49,13 @@ mobile-gaming-platform/
 ├── css/
 │   └── styles.css
 ├── js/
-│   ├── config.js      ← ⚙️ YOUR DETAILS LIVE HERE
+│   ├── config.js      site defaults (no personal data)
 │   ├── data.js        games, tournaments, leaderboard, seed data
 │   ├── app.js         auth, payment, nav, modals, teams, community
+   │   ├── qr.js          own QR generator (zero dependency)
 │   └── pages.js       page renderers
 ├── server.js          dev static server
 ├── README.md
-└── LICENSES.md
 ```
 
 ---
