@@ -403,20 +403,21 @@ const Payment = {
             </div>
 
             <a href="${esc(link)}" target="_blank" rel="noopener" class="btn btn-hot btn-block btn-lg mb-4">
-                🔒 ${esc(label)}
+                💸 ${esc(label)}
             </a>
 
+            <div style="text-align:center;margin:-8px 0 14px">
+                <div class="xs mute">Pay to</div>
+                <div class="bold">${esc(SITE.upiName || SITE.ownerFullName || 'Organiser')}</div>
+            </div>
+
             <ol class="xs mute" style="line-height:2">
-                <li>Upar wala button dabao - secure checkout khulega</li>
-                <li>UPI / card / netbanking - jo chaho usse pay kar do</li>
+                <li>Upar wala button dabao - teri UPI app khul jayegi</li>
                 <li>Amount pehle se set hoga, bas confirm kar do</li>
                 <li>Payment hote hi tera slot confirm ho jayega</li>
                 ${SITE.email ? `<li>Payment screenshot bhejni ho to email karo:
                     <a href="mailto:${esc(SITE.email)}" class="neon-text">${esc(SITE.email)}</a></li>` : ''}
-            </ol>
-            <p class="xs mute" style="text-align:center;margin-top:10px;opacity:.7">
-                Payments processed securely by our payment provider
-            </p>`;
+            </ol>`;
     }
 };
 
