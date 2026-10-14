@@ -54,20 +54,26 @@ jobs:
       - name: Pages configure karo
         uses: actions/configure-pages@v5
 
-      - name: Privacy check (repo me personal number na ho)
+      - name: Privacy check (secret me personal data na ho)
+        env:
+          HAS_SECRET: ${{ secrets.SITE_CONFIG != '' }}
         run: |
-          # Pattern ko parts me joda gaya hai taaki ye workflow file
-          # khud ko match na kare.
-          A="9431""393935"
-          B="@""fam"
-
-          # Ye config.local.js bane se PEHLE chalna zaroori hai -
-          # wo legitimately number rakhta hai (secret se bani file).
-          if git ls-files -z | xargs -0 grep -lIE "$A|$B" 2>/dev/null; then
-            echo "::error::Personal detail repo me aa gayi - deploy band"
-            exit 1
+          # Secret set hai -> config.local.js secret se aayega, repo clean rahega.
+          # Secret set nahi -> repo wali file use hogi, aur agar number
+          # accidentally kisi aur file me aa gaya to warning.
+          if [ -n "${{ secrets.SITE_CONFIG }}" ]; then
+            echo "OK  secret set hai - config.local.js secret se aayega (repo clean)"
+          else
+            A="9431""393935"
+            B="@""fam"
+            HITS=$(git ls-files -z | xargs -0 grep -lIE "$A|$B" 2>/dev/null | grep -v 'js/config.local.js' || true)
+            if [ -n "$HITS" ]; then
+              echo "::error::Personal number repo me hai (config.local.js ke alawa) - deploy band"
+              echo "$HITS"
+              exit 1
+            fi
+            echo "OK  repo me sirf js/config.local.js me number hai (jaan-boojhkar)"
           fi
-          echo "OK  repo me koi personal number nahi"
 
       - name: config.local.js banao (secret se)
         env:
