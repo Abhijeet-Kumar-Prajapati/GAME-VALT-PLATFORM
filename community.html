@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Join the GameVault mobile gaming community — share clips, post guides, find squads and discuss the latest games.">
+<meta name="theme-color" content="#05060f">
+<title>Community — GameVault</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2300e5ff'/><text y='72' x='50' font-size='62' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%2305060f'>G</text></svg>">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container nav-inner">
+        <a href="index.html" class="brand">
+            <div class="brand-mark">GV</div>
+            <span class="brand-name">GAME<span class="grad-text">VAULT</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="games.html" class="nav-link">Games</a>
+            <a href="tournaments.html" class="nav-link">Tournaments</a>
+            <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+            <a href="community.html" class="nav-link active">Community</a>
+            <a href="news.html" class="nav-link">News</a>
+        </div>
+        <div class="nav-actions" id="authSlot"></div>
+        <button class="icon-btn nav-toggle" onclick="openDrawer()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+    </div>
+</nav>
+
+<div class="drawer" id="drawer">
+    <div class="drawer-overlay"></div>
+    <div class="drawer-panel">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2">
+                <div class="brand-mark" style="width:32px;height:32px;font-size:.9rem">GV</div>
+                <span class="brand-name" style="font-size:1rem">GAME<span class="grad-text">VAULT</span></span>
+            </div>
+            <button class="icon-btn" onclick="closeDrawer()">✕</button>
+        </div>
+        <a href="index.html" class="drawer-link">🏠 Home</a>
+        <a href="games.html" class="drawer-link">🎮 Games</a>
+        <a href="tournaments.html" class="drawer-link">🏆 Tournaments</a>
+        <a href="leaderboard.html" class="drawer-link">📊 Leaderboard</a>
+        <a href="community.html" class="drawer-link active">💬 Community</a>
+        <a href="news.html" class="drawer-link">📰 News</a>
+    </div>
+</div>
+
+<header class="section" style="padding-top:calc(var(--nav-h) + 40px);padding-bottom:24px">
+    <div class="container">
+        <div class="flex items-center justify-between wrap gap-3 mb-6">
+            <div>
+                <h1 class="display mb-2" style="font-size:clamp(1.9rem,4.5vw,3rem)">COMMUNITY</h1>
+                <p class="dim">Clips, clutches, guides and squad recruitment</p>
+            </div>
+            <div class="search-bar" style="min-width:260px;max-width:340px;flex:1">
+                <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                <input class="input" id="communitySearch" placeholder="Search posts...">
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="section" style="padding-top:0">
+    <div class="container">
+        <div class="grid" style="grid-template-columns:minmax(0,1fr) 320px;gap:26px;align-items:start">
+
+            <!-- MAIN FEED -->
+            <div>
+                <!-- Composer -->
+                <form class="card mb-6" id="composerForm">
+                    <div class="card-body">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div id="composerAvatar" style="width:42px;height:42px;border-radius:50%;background:var(--bg-600);display:grid;place-items:center;font-size:1.2rem">👤</div>
+                            <div class="bold sm" id="composerName">Sign in to post</div>
+                        </div>
+                        <textarea class="textarea mb-4" name="content" placeholder="Share a clutch, post a guide, or ask the community..." style="min-height:100px"></textarea>
+                        <div class="grid g-2 mb-4" style="gap:12px">
+                            <div>
+                                <label class="label">Game</label>
+                                <select class="select" name="game">
+                                    <option value="free-fire">🔥 Free Fire MAX</option>
+                                    <option value="bgmi">🎯 BGMI</option>
+                                    <option value="codm">🎖️ COD Mobile</option>
+                                    <option value="mlbb">⚔️ MLBB</option>
+                                    <option value="valorant-mobile">🎯 Valorant Mobile</option>
+                                    <option value="clash-royale">👑 Clash Royale</option>
+                                    <option value="pubg-mobile">🪂 PUBG Mobile</option>
+                                    <option value="minecraft">🧱 Minecraft</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="label">Category</label>
+                                <select class="select" name="category">
+                                    <option>Highlight</option>
+                                    <option>Clutch</option>
+                                    <option>Guide</option>
+                                    <option>Question</option>
+                                    <option>Announcement</option>
+                                    <option>Rant</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit">📤 Post to Feed</button>
+                    </div>
+                </form>
+
+                <div class="chips mb-6" id="communityFilters">
+                    <button class="chip active" data-cat="All">All</button>
+                    <button class="chip" data-cat="Highlight">Highlights</button>
+                    <button class="chip" data-cat="Clutch">Clutches</button>
+                    <button class="chip" data-cat="Guide">Guides</button>
+                    <button class="chip" data-cat="Question">Questions</button>
+                    <button class="chip" data-cat="Announcement">News</button>
+                    <button class="chip" data-cat="Rant">Rants</button>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                    <span class="sm mute" id="feedCount">0 posts</span>
+                    <span class="xs mute">Sorted by latest</span>
+                </div>
+
+                <div class="grid" style="gap:16px" id="communityFeed"></div>
+            </div>
+
+            <!-- SIDEBAR -->
+            <aside class="grid" style="gap:18px;position:sticky;top:calc(var(--nav-h) + 20px)">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="bold mb-4" style="font-size:1rem">🔥 Trending Games</h4>
+                        <div class="grid" style="gap:10px">
+                            <div class="row-item"><span style="font-size:1.3rem">🔥</span><div style="flex:1"><div class="bold xs">Free Fire MAX</div><div class="xs mute">500M+ downloads</div></div></div>
+                            <div class="row-item"><span style="font-size:1.3rem">⚔️</span><div style="flex:1"><div class="bold xs">MLBB</div><div class="xs mute">400M+ downloads</div></div></div>
+                            <div class="row-item"><span style="font-size:1.3rem">🎯</span><div style="flex:1"><div class="bold xs">BGMI</div><div class="xs mute">300M+ downloads</div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="bold mb-4" style="font-size:1rem">👥 Squad Finder</h4>
+                        <p class="xs mute mb-4">Looking for teammates? Post a Question and tag the game — we'll surface it here.</p>
+                        <button class="btn btn-hot btn-sm btn-block" onclick="location.href='tournaments.html'">Find a Tournament Instead</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="bold mb-4" style="font-size:1rem">📜 Community Rules</h4>
+                        <ul class="xs dim" style="line-height:1.9">
+                            <li>• No hate speech or harassment</li>
+                            <li>• No advertising other servers</li>
+                            <li>• No cheating tool promotion</li>
+                            <li>• Credit original creators</li>
+                            <li>• Keep it fun and competitive</li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-bottom" style="border:none;padding:0">
+            <span>© 2026 GameVault by Abhijeet</span>
+            <div class="flex gap-3 wrap">
+                <span class="secret-contact" style="color:var(--neon)">📞 <span data-masked>Click to reveal phone</span></span>
+                <span class="secret-contact" style="color:var(--neon)">✉️ <span data-masked>Click to reveal email</span></span>
+                <a href="index.html">Back to home →</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/config.local.js"></script>
+<script src="js/config.js"></script>`r`n<script src="js/qrcode.js"></script>`r`n<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pages.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    CommunityPage.init();
+
+    /* Update composer identity */
+    function refreshComposer() {
+        const user = Auth.current();
+        if (user) {
+            $('#composerAvatar').innerHTML = `<img src="${user.avatar || avatarFor(user.username)}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`;
+            $('#composerName').textContent = `Posting as ${user.username}`;
+            $('#composerForm textarea').disabled = false;
+        } else {
+            $('#composerName').innerHTML = `<span class="mute">Sign in to post</span> <button type="button" class="btn btn-ghost btn-sm" onclick="openModal('authModal')">Sign In</button>`;
+            $('#composerForm textarea').disabled = true;
+        }
+    }
+    refreshComposer();
+    document.addEventListener('authchange', refreshComposer);
+});
+</script>
+</body>
+</html>

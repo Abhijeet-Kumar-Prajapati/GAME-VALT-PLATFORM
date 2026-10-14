@@ -1,0 +1,25 @@
+{
+  "name": "gamevault",
+  "version": "1.0.0",
+  "description": "GameVault — a mobile gaming platform for the Indian gaming community. Discover games, join tournaments, climb leaderboards.",
+  "author": "Abhijeet",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "gaming",
+    "mobile-gaming",
+    "tournament",
+    "esports",
+    "free-fire",
+    "bgmi",
+    "upi",
+    "india"
+  ],
+  "engines": {
+    "node": ">=14"
+  }
+}

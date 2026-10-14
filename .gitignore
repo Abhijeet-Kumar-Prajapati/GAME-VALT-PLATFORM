@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Environment / secrets — never commit these
+.env
+.env.local
+.env.*.local
+
+# Personal details (phone / email / UPI) — kabhi commit nahi hone chahiye.
+# Template: js/config.example.js  |  Apni asli file: js/config.local.js
+js/config.local.js
+
+.netlify/
+.vercel/
+.netlify/functions/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build output
+dist/
+build/
+.cache/
+
+# Verification-only (not shipped)
+js/jsqr-verify.js

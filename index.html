@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GameVault — India's mobile gaming platform. Discover games, join tournaments, climb leaderboards and join the community.">
+<meta name="theme-color" content="#05060f">
+<title>GameVault — Mobile Gaming Platform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2300e5ff'/><text y='72' x='50' font-size='62' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%2305060f'>G</text></svg>">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="nav">
+    <div class="container nav-inner">
+        <a href="index.html" class="brand">
+            <div class="brand-mark">GV</div>
+            <span class="brand-name">GAME<span class="grad-text">VAULT</span></span>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active" data-page="home">Home</a>
+            <a href="games.html" class="nav-link" data-page="games">Games</a>
+            <a href="tournaments.html" class="nav-link" data-page="tournaments">Tournaments</a>
+            <a href="leaderboard.html" class="nav-link" data-page="leaderboard">Leaderboard</a>
+            <a href="community.html" class="nav-link" data-page="community">Community</a>
+            <a href="news.html" class="nav-link" data-page="news">News</a>
+        </div>
+
+        <div class="nav-actions" id="authSlot"></div>
+
+        <button class="icon-btn nav-toggle" onclick="openDrawer()" aria-label="Menu">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+    </div>
+</nav>
+
+<!-- ============ MOBILE DRAWER ============ -->
+<div class="drawer" id="drawer">
+    <div class="drawer-overlay"></div>
+    <div class="drawer-panel">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2">
+                <div class="brand-mark" style="width:32px;height:32px;font-size:.9rem">GV</div>
+                <span class="brand-name" style="font-size:1rem">GAME<span class="grad-text">VAULT</span></span>
+            </div>
+            <button class="icon-btn" onclick="closeDrawer()">✕</button>
+        </div>
+        <a href="index.html" class="drawer-link active">🏠 Home</a>
+        <a href="games.html" class="drawer-link">🎮 Games</a>
+        <a href="tournaments.html" class="drawer-link">🏆 Tournaments</a>
+        <a href="leaderboard.html" class="drawer-link">📊 Leaderboard</a>
+        <a href="community.html" class="drawer-link">💬 Community</a>
+        <a href="news.html" class="drawer-link">📰 News</a>
+        <a href="#" class="drawer-link" onclick="event.preventDefault();closeDrawer();showPage('profile')">👤 My Profile</a>
+        <div class="divider" style="margin:18px 0"></div>
+        <button class="btn btn-ghost btn-block btn-sm" onclick="closeDrawer();openModal('authModal')">Sign In / Register</button>
+    </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="section" style="padding-top:calc(var(--nav-h) + 56px);padding-bottom:56px">
+    <div class="container">
+        <div class="grid g-2 items-center" style="gap:44px">
+            <div class="reveal visible">
+                <div class="flex gap-2 mb-4 wrap">
+                    <span class="badge badge-live"><span class="pulse"></span>5 Live Events</span>
+                    <span class="badge badge-new">Free to Enter</span>
+                </div>
+                <h1 class="display" style="font-size:clamp(2.3rem,6vw,4rem);line-height:1.02;margin-bottom:18px">
+                    THE HOME OF<br><span class="grad-text">MOBILE GAMING</span>
+                </h1>
+                <p class="dim mb-6" style="font-size:1.06rem;max-width:520px">
+                    Discover the top mobile games, compete in cash tournaments, climb the global leaderboard and connect with 50,000+ players across India.
+                </p>
+                <div class="flex gap-3 wrap mb-6">
+                    <a href="games.html" class="btn btn-primary btn-lg">🎮 Browse Games</a>
+                    <a href="tournaments.html" class="btn btn-hot btn-lg">🏆 Join a Tournament</a>
+                </div>
+                <div class="flex gap-6 wrap">
+                    <div><div class="bold" style="color:var(--neon)" data-count="10">0</div><div class="xs mute">Games</div></div>
+                    <div><div class="bold" style="color:var(--neon-3)" data-count="50" data-suffix="K+">0</div><div class="xs mute">Players</div></div>
+                    <div><div class="bold" style="color:var(--amber)" data-count="120" data-suffix="+">0</div><div class="xs mute">Events</div></div>
+                    <div><div class="bold" style="color:var(--neon-2)" data-count="5" data-suffix="L">0</div><div class="xs mute">Prize Money</div></div>
+                </div>
+            </div>
+
+            <div class="reveal visible" style="position:relative">
+                <div class="card" style="padding:22px;background:var(--grad-surface)">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span style="font-size:1.6rem">🔥</span>
+                        <div><div class="bold">Free Fire MAX</div><div class="xs mute">Bermuda Clash — Live Bracket</div></div>
+                        <span class="badge badge-live" style="margin-left:auto"><span class="pulse"></span>Live</span>
+                    </div>
+                    <div class="grid g-2" style="gap:10px;margin-bottom:14px">
+                        <div class="glass" style="padding:13px;border-radius:11px"><div class="xs mute">Prize Pool</div><div class="bold neon-text">₹15,000</div></div>
+                        <div class="glass" style="padding:13px;border-radius:11px"><div class="xs mute">Slots Left</div><div class="bold">5</div></div>
+                    </div>
+                    <div class="space-y-2" style="font-size:.8rem">
+                        <div class="flex items-center gap-3"><span class="rank rank-1">#1</span><div style="flex:1"><b>Phantom Squad</b><div class="xs mute">12 pts</div></div></div>
+                        <div class="flex items-center gap-3"><span class="rank rank-2">#2</span><div style="flex:1"><b>Thunder Bolts</b><div class="xs mute">9 pts</div></div></div>
+                        <div class="flex items-center gap-3"><span class="rank rank-3">#3</span><div style="flex:1"><b>Shadow Hunters</b><div class="xs mute">7 pts</div></div></div>
+                    </div>
+                    <a href="tournaments.html" class="btn btn-primary btn-block btn-sm mt-4">Watch Bracket →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============ FEATURED GAMES ============ -->
+<section class="section" style="padding-top:0">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title">Trending Games</h2>
+                <p class="section-sub">What everyone is playing this week</p>
+            </div>
+            <a href="games.html" class="btn btn-ghost btn-sm">View All →</a>
+        </div>
+        <div class="grid g-4" id="homeGames"></div>
+    </div>
+</section>
+
+<!-- ============ TOURNAMENTS ============ -->
+<section class="section" style="padding-top:0">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title">Live & Upcoming</h2>
+                <p class="section-sub">Register your squad before slots fill up</p>
+            </div>
+            <a href="tournaments.html" class="btn btn-ghost btn-sm">All Tournaments →</a>
+        </div>
+        <div class="grid g-3" id="homeTournaments"></div>
+    </div>
+</section>
+
+<!-- ============ WHY GAMEVAULT ============ -->
+<section class="section" style="padding-top:0">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title">Why GameVault</h2>
+                <p class="section-sub">Everything you need to play competitively</p>
+            </div>
+        </div>
+        <div class="grid g-4">
+            <div class="card card-hover reveal"><div class="card-body text-center">
+                <div style="font-size:2.6rem" class="mb-4">🏆</div>
+                <h3 style="font-size:1.05rem" class="mb-2">Cash Tournaments</h3>
+                <p class="sm dim">Daily squad events across Free Fire, BGMI, CODM and more with real prize payouts.</p>
+            </div></div>
+            <div class="card card-hover reveal"><div class="card-body text-center">
+                <div style="font-size:2.6rem" class="mb-4">📊</div>
+                <h3 style="font-size:1.05rem" class="mb-2">Live Leaderboards</h3>
+                <p class="sm dim">Track wins, win-rate and points. Prove you're the best in the arena.</p>
+            </div></div>
+            <div class="card card-hover reveal"><div class="card-body text-center">
+                <div style="font-size:2.6rem" class="mb-4">💬</div>
+                <h3 style="font-size:1.05rem" class="mb-2">Community</h3>
+                <p class="sm dim">Clips, guides, clutches and squad recruitment with 50K+ active players.</p>
+            </div></div>
+            <div class="card card-hover reveal"><div class="card-body text-center">
+                <div style="font-size:2.6rem" class="mb-4">⚡</div>
+                <h3 style="font-size:1.05rem" class="mb-2">Instant Sign-up</h3>
+                <p class="sm dim">Register a squad in under a minute. No downloads, no waiting.</p>
+            </div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ COMMUNITY PREVIEW ============ -->
+<section class="section" style="padding-top:0">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title">Community Buzz</h2>
+                <p class="section-sub">Latest from the feed</p>
+            </div>
+            <a href="community.html" class="btn btn-ghost btn-sm">Open Community →</a>
+        </div>
+        <div class="grid g-3" id="homeCommunity"></div>
+    </div>
+</section>
+
+<!-- ============ PAYMENT & CONTACT ============ -->
+<section class="section" style="padding-top:0">
+    <div class="container">
+        <div class="card" style="padding:40px">
+            <div class="grid g-2" style="gap:36px;align-items:center">
+                <div>
+                    <h2 class="section-title mb-3" style="font-size:1.4rem">Pay via UPI</h2>
+                    <p class="sm dim mb-6">
+                        Pay any tournament entry fee directly with your UPI app — Google Pay, PhonePe,
+                        Paytm or any bank app. Your slot is confirmed once the payment is verified.
+                    </p>
+                    <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px" id="contactCards"></div>
+                </div>
+                <div class="text-center">
+                    <div class="glass" style="padding:26px;display:inline-block">
+                        <div class="qr-link" id="homeQr" style="display:block;background:#fff;padding:14px;border-radius:14px;cursor:pointer"></div>
+                        <p class="xs mute mt-3 mb-1">Scan to pay instantly</p>
+                        <p class="mono bold neon-text">UPI: <span id="homeUpi"></span></p>
+                    </div>
+                    <span class="btn btn-ghost btn-sm mt-4 secret-contact" data-reveal="whatsapp" role="button">
+                        📲 <span data-masked>Open WhatsApp chat</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="section" style="padding-top:0">
+    <div class="container">
+        <div class="card" style="padding:52px 32px;text-align:center;background:linear-gradient(135deg,rgba(124,77,255,.22),rgba(255,46,147,.14),rgba(0,229,255,.14));border-color:var(--border-strong)">
+            <h2 class="display mb-3" style="font-size:clamp(1.6rem,4vw,2.5rem)">READY TO <span class="grad-hot">DOMINATE?</span></h2>
+            <p class="dim mb-6" style="max-width:520px;margin:0 auto">Create your free account, build your squad and compete for real prize money today.</p>
+            <div class="flex gap-3 justify-center wrap">
+                <button class="btn btn-primary btn-lg" onclick="openModal('authModal')">Create Free Account</button>
+                <a href="tournaments.html" class="btn btn-ghost btn-lg">Browse Tournaments</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="flex items-center gap-2">
+                    <div class="brand-mark" style="width:32px;height:32px;font-size:.9rem">GV</div>
+                    <span class="brand-name" style="font-size:1.05rem">GAME<span class="grad-text">VAULT</span></span>
+                </div>
+                <p class="footer-about">India's mobile gaming platform — discover games, join tournaments and climb the ranks with 50,000+ players.</p>
+                <div class="social-row">
+                    <a href="#" aria-label="Discord">💬</a>
+                    <a href="#" aria-label="YouTube">▶️</a>
+                    <a href="#" aria-label="Telegram">✈️</a>
+                    <a href="#" aria-label="Instagram">📸</a>
+                </div>
+            </div>
+            <div>
+                <h5>Platform</h5>
+                <ul>
+                    <li><a href="games.html">Browse Games</a></li>
+                    <li><a href="tournaments.html">Tournaments</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="news.html">News</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5>Community</h5>
+                <ul>
+                    <li><a href="community.html">Feed</a></li>
+                    <li><a href="community.html">Guides</a></li>
+                    <li><a href="#">Squad Finder</a></li>
+                    <li><a href="#">Discord Server</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5>Support</h5>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Rules & Fair Play</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><span class="secret-contact" data-reveal="phone"><span data-masked>Click to reveal</span></span></li>
+                    <li><span class="secret-contact" data-reveal="email"><span data-masked>Click to reveal</span></span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 GameVault by Abhijeet. Built for the mobile gaming community.</span>
+            <div class="flex gap-3 wrap">
+                <span class="secret-contact" style="color:var(--neon)">📞 <span data-masked>Click to reveal phone</span></span>
+                <span class="secret-contact" style="color:var(--neon)">✉️ <span data-masked>Click to reveal email</span></span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ============ AUTH MODAL ============ -->
+<div class="modal" id="authModal">
+    <div class="modal-box" style="position:relative">
+        <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+        <h2 class="display mb-1" style="font-size:1.5rem">Welcome to GameVault</h2>
+        <p class="sm mute mb-6">Sign in to track your rank and join tournaments</p>
+
+        <div class="chips mb-6" style="border-bottom:1px solid var(--border);padding-bottom:14px">
+            <button class="chip active" id="tabLogin" onclick="AuthModal.tab('login')">Sign In</button>
+            <button class="chip" id="tabRegister" onclick="AuthModal.tab('register')">Create Account</button>
+        </div>
+
+        <form id="loginForm">
+            <div class="field">
+                <label class="label" for="loginEmail">Email</label>
+                <input class="input" type="email" id="loginEmail" placeholder="you@example.com" required>
+            </div>
+            <div class="field">
+                <label class="label" for="loginPass">Password</label>
+                <input class="input" type="password" id="loginPass" placeholder="••••••••" required>
+            </div>
+            <button class="btn btn-primary btn-block btn-lg" type="submit">Sign In</button>
+            <p class="xs mute text-center mt-4">Owner: <span class="secret-contact" data-reveal="email"><span data-masked>click to reveal</span></span></p>
+        </form>
+
+        <form id="registerFormAuth" class="hidden">
+            <div class="field">
+                <label class="label" for="regUser">Username</label>
+                <input class="input" id="regUser" placeholder="Your in-game name" required>
+            </div>
+            <div class="field">
+                <label class="label" for="regEmail">Email</label>
+                <input class="input" type="email" id="regEmail" placeholder="you@example.com" required>
+            </div>
+            <div class="field">
+                <label class="label" for="regPass">Password</label>
+                <input class="input" type="password" id="regPass" placeholder="At least 6 characters" minlength="6" required>
+            </div>
+            <div class="field">
+                <label class="label" for="regGame">Favourite Game</label>
+                <select class="select" id="regGame">
+                    <option value="free-fire">Free Fire MAX</option>
+                    <option value="bgmi">Battlegrounds Mobile India</option>
+                    <option value="codm">Call of Duty: Mobile</option>
+                    <option value="mlbb">Mobile Legends: Bang Bang</option>
+                    <option value="valorant-mobile">Valorant Mobile</option>
+                    <option value="clash-royale">Clash Royale</option>
+                    <option value="pubg-mobile">PUBG Mobile</option>
+                    <option value="minecraft">Minecraft</option>
+                    <option value="clash-of-clans">Clash of Clans</option>
+                    <option value="genshin-impact">Genshin Impact</option>
+                </select>
+            </div>
+            <label class="checkbox mb-4">
+                <input type="checkbox" required>
+                <span>I agree to the Rules & Fair Play policy and Terms of Service</span>
+            </label>
+            <button class="btn btn-hot btn-block btn-lg" type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
+
+<!-- ============ NOTIFICATIONS MODAL ============ -->
+<div class="modal" id="notifModal">
+    <div class="modal-box" style="position:relative">
+        <button class="modal-close" onclick="closeModal('notifModal')">✕</button>
+        <h3 class="display mb-4" style="font-size:1.25rem">Notifications</h3>
+        <div class="grid" style="gap:10px" id="notifList"></div>
+    </div>
+</div>
+
+<script src="js/config.local.js"></script>
+<script src="js/config.js"></script>
+<script src="js/qrcode.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pages.js"></script>
+<script>
+/* Auth modal tab switcher */
+const AuthModal = {
+    tab(which) {
+        $('#tabLogin').classList.toggle('active', which === 'login');
+        $('#tabRegister').classList.toggle('active', which === 'register');
+        $('#loginForm').classList.toggle('hidden', which !== 'login');
+        $('#registerFormAuth').classList.toggle('hidden', which !== 'register');
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    /* Home page renderers */
+    const trending = GAMES.filter(g => g.trending).slice(0, 4);
+    $('#homeGames').innerHTML = trending.map(g => GamesPage.card(g)).join('');
+
+    $('#homeTournaments').innerHTML = TOURNAMENTS
+        .filter(t => t.status === 'live' || t.status === 'open')
+        .slice(0, 3)
+        .map(t => TournamentsPage.card(t)).join('');
+
+    $('#homeCommunity').innerHTML = Community.all().slice(0, 3).map(p => CommunityPage.card(p)).join('');
+
+    $$('#homeGames .reveal, #homeTournaments .reveal, #homeCommunity .reveal').forEach((el, i) => {
+        el.style.transitionDelay = `${i * 60}ms`;
+        el.classList.add('visible');
+    });
+
+    animateCounters();
+
+    /* Payment + contact section */
+    $('#homeQr').innerHTML = Payment.qr(upiLink(0), 190);
+    $('#homeUpi').textContent = SITE.upiId;
+
+    $('#contactCards').innerHTML = `
+        <a href="tel:${esc(SITE.phoneIntl)}" class="glass" style="padding:16px;border-radius:12px;transition:all .2s">
+            <div class="xs mute mb-1">Phone / WhatsApp</div>
+            <div class="bold sm">${esc(SITE.phoneDisplay)}</div>
+        </a>
+        <a href="mailto:${esc(SITE.email)}" class="glass" style="padding:16px;border-radius:12px;transition:all .2s">
+            <div class="xs mute mb-1">Email</div>
+            <div class="bold sm truncate" style="font-size:.78rem">${esc(SITE.email)}</div>
+        </a>
+        <div class="glass" style="padding:16px;border-radius:12px">
+            <div class="xs mute mb-1">Organiser</div>
+            <div class="bold sm">${esc(SITE.ownerFullName)}</div>
+        </div>
+        <div class="glass" style="padding:16px;border-radius:12px">
+            <div class="xs mute mb-1">Support hours</div>
+            <div class="bold sm">${esc(SITE.supportHours)}</div>
+        </div>`;
+
+    /* Auth forms */
+    $('#loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const res = Auth.login($('#loginEmail').value, $('#loginPass').value);
+        if (!res.ok) { Toast.show(res.error, 'error'); return; }
+        closeModal('authModal');
+        Toast.show(`Welcome back, ${res.user.username}!`, 'success');
+        renderAuthUI();
+        if (ProfilePage) ProfilePage.render();
+    });
+
+    $('#registerFormAuth').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const res = Auth.register({
+            username: $('#regUser').value.trim(),
+            email: $('#regEmail').value.trim(),
+            pass: $('#regPass').value,
+            gameId: $('#regGame').value
+        });
+        if (!res.ok) { Toast.show(res.error, 'error'); return; }
+        closeModal('authModal');
+        Toast.show(`Account created! Welcome, ${res.user.username}`, 'success');
+        renderAuthUI();
+    });
+
+    /* Close drawers when clicking drawer links on mobile */
+    $$('.drawer-link').forEach(l => l.addEventListener('click', () => setTimeout(closeDrawer, 100)));
+});
+</script>
+</body>
+</html>
