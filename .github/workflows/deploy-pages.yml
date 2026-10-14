@@ -46,6 +46,21 @@ jobs:
       - name: Pages configure karo
         uses: actions/configure-pages@v5
 
+      - name: Privacy check (repo me personal number na ho)
+        run: |
+          # Pattern ko parts me joda gaya hai taaki ye workflow file
+          # khud ko match na kare.
+          A="9431""393935"
+          B="@""fam"
+
+          # Ye config.local.js bane se PEHLE chalna zaroori hai -
+          # wo legitimately number rakhta hai (secret se bani file).
+          if git ls-files -z | xargs -0 grep -lIE "$A|$B" 2>/dev/null; then
+            echo "::error::Personal detail repo me aa gayi - deploy band"
+            exit 1
+          fi
+          echo "OK  repo me koi personal number nahi"
+
       - name: config.local.js banao (secret se)
         env:
           SITE_CONFIG: ${{ secrets.SITE_CONFIG }}
@@ -65,14 +80,6 @@ jobs:
             node --check "$f" || { echo "::error::$f me syntax error hai"; exit 1; }
           done
           echo "OK  saare JS files valid"
-
-      - name: Privacy check (number repo me na ho)
-        run: |
-          if grep -rInE '9431393935|@fam' --exclude-dir=.git . ; then
-            echo "::error::Personal detail repo me aa gayi - deploy band"
-            exit 1
-          fi
-          echo "OK  repo me koi personal number nahi"
 
       - name: Artifact upload
         uses: actions/upload-pages-artifact@v3
