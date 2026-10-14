@@ -39,6 +39,14 @@ jobs:
     name: Build aur deploy
     runs-on: ubuntu-latest
 
+    # Ye ZAROORI hai - deploy-pages action ko github-pages
+    # environment chahiye. Iske bina error aata hai:
+    # "Missing environment. Ensure your workflow's deployment job
+    #  has an environment."
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Code checkout karo
         uses: actions/checkout@v4
@@ -87,4 +95,5 @@ jobs:
           path: '.'
 
       - name: Deploy
+        id: deployment
         uses: actions/deploy-pages@v4
