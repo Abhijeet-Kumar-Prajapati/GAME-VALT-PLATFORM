@@ -319,16 +319,16 @@ const Community = {
 };
 
 /* ============================================================
-   PAYMENT (via payment gateway — Razorpay / PayU / Cashfree)
+   PAYMENT
    ------------------------------------------------------------
-   Aapka UPI ID / mobile number KABHI is site par nahi jaata.
-   Gateway ka payment link config.local.js me hota hai, aur us
-   link ke through payment seedha aapke account me aata hai.
+   config.js ka paymentLink() khud decide karta hai:
+     - paymentLink set hai  -> gateway (Razorpay/PayU/Cashfree)
+     - warna upiId set hai  -> runtime me upi:// link
+     - dono nahi            -> payment band (sirf email)
 
-   Isliye koi bhi visitor:
-     - page source dekhe      -> number nahi milega
-     - DevTools khole         -> number nahi milega
-     - "Pay" button click kare -> gateway ka checkout khulega
+   Aapka mobile number ya UPI ID KISI BHI source file me nahi
+   hai. Wo sirf config.local.js me hota hai jo gitignore me hai,
+   aur link RUNTIME me banaya jaata hai.
    ============================================================ */
 const Payment = {
     /* Extract the numeric amount from an entry string like "₹100 / squad" */
@@ -337,9 +337,9 @@ const Payment = {
         return m ? parseFloat(m[1]) : 0;
     },
 
-    /* Gateway ka payment link (config.local.js se) */
-    link() {
-        return paymentLink();
+    /* Gateway link ya runtime UPI link (amount set karke) */
+    link(entry) {
+        return paymentLink(this.amount(entry));
     },
 
     /* Kya payment configure hai? */
@@ -347,7 +347,7 @@ const Payment = {
         return !!paymentLink();
     },
 
-    /* Copy helper (generic, koi UPI ID nahi) */
+    /* Copy helper (generic) */
     async copy(text, label = 'Copied to clipboard') {
         const value = String(text);
         try {
@@ -377,8 +377,8 @@ const Payment = {
        nahi ho sakti) lekin wo screen par kabhi print nahi hota.
     */
     panel(entry) {
-        const link = this.link();
-        const label = SITE.paymentLabel || 'Pay securely';
+        const link = this.link(entry);
+        const label = SITE.paymentLabel || 'Pay with UPI';
 
         // Payment link nahi hai (config.local.js set nahi) — button mat dikhao
         if (!link) {
