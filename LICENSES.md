@@ -1,42 +1,17 @@
 # Licenses
 
-This project uses the following third-party library.
+This project vendors **no third-party code**.
 
-## qrcode-generator
+Every file in this repository was written for this project, with no
+external library copied in or bundled. The QR code library that was
+previously vendored (`qrcode-generator` by Kazuhiko Arase, MIT) has been
+**removed** — payments now use the plain `upi://` deep link instead of a
+scanned QR image.
 
-- **File:** `js/qrcode.js`
-- **Version:** 1.4.4
-- **Author:** Kazuhiko Arase
-- **Source:** https://github.com/kazuhikoarase/qrcode-generator
-- **License:** MIT
-
-```
-The MIT License (MIT)
-
-Copyright (c) 2009 Kazuhiko Arase
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
----
-
-## Web fonts
+## Web fonts (loaded from Google Fonts, not vendored)
 
 Orbitron, Rajdhani and Inter are loaded from Google Fonts and are licensed
 under the SIL Open Font License 1.1.
+
+These fonts are **not** included in this repository — they are requested
+from Google's CDN at runtime.

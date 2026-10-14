@@ -50,7 +50,6 @@ mobile-gaming-platform/
 │   └── styles.css
 ├── js/
 │   ├── config.js      ← ⚙️ YOUR DETAILS LIVE HERE
-│   ├── qrcode.js      QR generator (vendored, MIT)
 │   ├── data.js        games, tournaments, leaderboard, seed data
 │   ├── app.js         auth, payment, nav, modals, teams, community
 │   └── pages.js       page renderers
@@ -102,7 +101,7 @@ Built around your mobile number. **No gateway, no backend, no monthly fee.**
 
 **How it works:**
 1. Player registers a squad and picks a tournament
-2. The registration modal shows a **scannable QR code** + a **"Pay with UPI App"** button
+2. The registration modal shows a **"Pay with UPI App"** button
 3. Tapping the button opens Google Pay / PhonePe / Paytm / any bank app with the **amount already filled in**
 4. Player sends the payment screenshot on WhatsApp
 5. You verify and confirm the slot
@@ -110,7 +109,7 @@ Built around your mobile number. **No gateway, no backend, no monthly fee.**
 **Also included:**
 - One-tap copy of the UPI ID
 - One-tap copy of the full payment link
-- Tap-to-pay QR that opens the UPI app directly
+- One-tap payment that opens the UPI app directly (no third-party QR library)
 - Automatic amount detection from the tournament entry fee
 
 > Most Indian banks let you use `UPI ID = 10-digit mobile number + @bankhandle`.
@@ -207,10 +206,3 @@ Pure static files — no build required. Drop the folder on any host:
 - **Cloudflare Pages** — connect the repo, no build command needed
 
 Remember to update `SITE` in `js/config.js` before going live.
-
----
-
-## 📄 Third-party code
-
-`js/qrcode.js` is the MIT-licensed **qrcode-generator** by Kazuhiko Arase.
-See [`LICENSES.md`](LICENSES.md).

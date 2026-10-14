@@ -481,7 +481,12 @@ const Payment = {
             </ol>`;
     },
 
-    /* UPI QR code using qrcode-generator (Kazuhiko Arase, MIT) */
+    /* UPI QR code
+   ------------------------------------------------------------
+   QR generate karne ke liye koi third-party library nahi hai
+   (repo me koi vendored code nahi). Isliye QR nahi dikhta -
+   payment "Pay with UPI App" button se hoti hai jo upi:// deep
+   link kholta hai. UPI ID copy karke bhi pay kar sakte ho. */
     qr(text, size = 140) {
         try {
             const qr = qrcode(0, 'M'); // typeNumber 0 = auto-select smallest version
