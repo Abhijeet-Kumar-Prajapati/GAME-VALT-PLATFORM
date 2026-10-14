@@ -547,9 +547,23 @@ function initApp() {
    ============================================================ */
 function renderUpiQR(selector) {
     const el = $(selector);
-    if (!el || typeof QR === 'undefined') return;
+    if (!el) return;
+
+    // qr.js load hua ya nahi
+    if (typeof QR === 'undefined') {
+        el.innerHTML = '<div style="padding:26px;font:600 .78rem system-ui;color:#0f172a">QR library load nahi hui</div>';
+        return;
+    }
+
     const link = paymentLink(0);
-    if (!link) { el.style.display = 'none'; return; }
+    if (!link) {
+        // Config missing - blank mat chhodo, clear message do
+        el.innerHTML = '<div style="padding:26px 22px;text-align:center;font:600 .74rem/1.6 system-ui;color:#0f172a">'
+            + 'QR code abhi taiyaar nahi hai<br>'
+            + '<span style="font-weight:400;font-size:.68rem;opacity:.7">payment config pending</span></div>';
+        return;
+    }
+
     const svg = QR.toSVG(link, 168);
     el.innerHTML = svg || '';
     if (svg) {
