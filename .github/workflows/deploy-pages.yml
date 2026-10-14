@@ -1,0 +1,83 @@
+name: Deploy to GitHub Pages
+
+# ------------------------------------------------------------
+#  Ye workflow site ko build + deploy karta hai.
+#
+#  Khaas baat: js/config.local.js repo me NAHI hai (gitignore me
+#  hai, taaki aapka mobile number / UPI ID public na ho).
+#  Ye workflow us file ko GitHub SECRET se bana kar deploy
+#  karta hai — isliye live site par payment aur QR kaam karte
+#  hain, aur repo me number phir bhi nahi hota.
+#
+#  Setup (ek baar):
+#   1. Repo → Settings → Secrets and variables → Actions
+#      → New repository secret
+#      Name   : SITE_CONFIG
+#      Value  : (neeche diya gaya JS content)
+#
+#   2. Repo → Settings → Pages → Build and deployment
+#      Source : GitHub Actions
+# ------------------------------------------------------------
+
+on:
+  push:
+    branches: [ main ]
+  # config ya site change karo to turant deploy ho
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    name: Build aur deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code checkout karo
+        uses: actions/checkout@v4
+
+      - name: Pages configure karo
+        uses: actions/configure-pages@v5
+
+      - name: config.local.js banao (secret se)
+        env:
+          SITE_CONFIG: ${{ secrets.SITE_CONFIG }}
+        run: |
+          mkdir -p js
+          if [ -n "$SITE_CONFIG" ]; then
+            printf '%s' "$SITE_CONFIG" > js/config.local.js
+            echo "OK  js/config.local.js secret se ban gaya"
+          else
+            echo "::warning::SITE_CONFIG secret set nahi hai - site live hogi par payment/QR 'Not configured' dikhega"
+          fi
+
+      - name: JS syntax check
+        run: |
+          for f in js/*.js; do
+            [ -e "$f" ] || continue
+            node --check "$f" || { echo "::error::$f me syntax error hai"; exit 1; }
+          done
+          echo "OK  saare JS files valid"
+
+      - name: Privacy check (number repo me na ho)
+        run: |
+          if grep -rInE '9431393935|@fam' --exclude-dir=.git . ; then
+            echo "::error::Personal detail repo me aa gayi - deploy band"
+            exit 1
+          fi
+          echo "OK  repo me koi personal number nahi"
+
+      - name: Artifact upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy
+        uses: actions/deploy-pages@v4
